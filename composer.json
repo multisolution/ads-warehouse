@@ -3,9 +3,10 @@
     "description": "Data warehouse for multi-data-source ads campaings.",
     "type": "project",
     "require": {
-        "leocavalcante/siler": "^1.6",
+        "leocavalcante/siler": "dev-master",
         "monolog/monolog": "^2.0",
-        "firebase/php-jwt": "^5.0"
+        "firebase/php-jwt": "^5.0",
+        "webonyx/graphql-php": "^0.13.8"
     },
     "require-dev": {
         "swoole/ide-helper": "^4.4",
@@ -18,5 +19,16 @@
             "email": "multisolution.web@gmail.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "AdsWarehouse\\": [
+                "src/",
+                "lib/"
+            ]
+        },
+        "files": [
+            "lib/graphql_files.php"
+        ]
+    }
 }

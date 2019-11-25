@@ -1,0 +1,4 @@
+type Ad {
+    id: ID!
+    name: String!
+}

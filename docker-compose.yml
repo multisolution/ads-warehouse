@@ -1,0 +1,11 @@
+version: '3'
+services:
+  ads_warehouse:
+    container_name: ads_warehouse
+    image: leocavalcante/dwoole:dev
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/app
+    environment:
+      ENTRY_POINT_FILE: /app/bin/server.php
