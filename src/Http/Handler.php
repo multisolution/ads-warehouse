@@ -26,13 +26,13 @@ class Handler
     {
         try {
             $input = decode(raw());
-            $response = execute($this->context->schema, $input, $this->context->rootValue, $this->context);
+            $result = execute($this->context->schema, $input, $this->context->rootValue, $this->context);
         } catch (Throwable $exception) {
             Log\error('Internal error', ['exception' => $exception]);
-            $response = FormattedError::createFromException($exception);
+            $result = FormattedError::createFromException($exception);
         } finally {
             cors();
-            json($response);
+            json($result);
         }
     }
 }

@@ -24,5 +24,6 @@ services:
       - "${DOCKER_HTTP_PORT}:8000"
     volumes:
       - ./:/app
+    env_file: ./.env
     environment:
       ENTRY_POINT_FILE: /app/bin/server.php

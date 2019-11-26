@@ -16,10 +16,21 @@ class Pdo implements Warehouse
 
     public function store(Ad $ad): bool
     {
-        $stmt = $this->pdo->prepare('insert into ad (id, name) values (:id, :name)');
+        $stmt = $this->pdo->prepare(
+            'insert into ad (id, name) values (:id, :name)'
+        );
         $stmt->bindValue('id', $ad->id);
         $stmt->bindValue('name', $ad->name);
 
         return $stmt->execute();
+    }
+
+    /**
+     * @return Ad[]
+     */
+    public function items(): array
+    {
+        return $this->pdo->query('select * from ad order by timestamp desc')
+            ->fetchAll(\PDO::FETCH_CLASS, Ad::class);
     }
 }

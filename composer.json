@@ -3,6 +3,7 @@
     "description": "Data warehouse for multi-data-source ads campaings.",
     "type": "project",
     "require": {
+        "ext-pdo": "*",
         "leocavalcante/siler": "dev-master",
         "monolog/monolog": "^2.0",
         "firebase/php-jwt": "^5.0",
@@ -23,12 +24,8 @@
     "autoload": {
         "psr-4": {
             "AdsWarehouse\\": [
-                "src/",
-                "lib/"
+                "src/"
             ]
-        },
-        "files": [
-            "lib/graphql_files.php"
-        ]
+        }
     }
 }

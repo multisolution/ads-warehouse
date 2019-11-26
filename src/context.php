@@ -2,6 +2,7 @@
 
 namespace AdsWarehouse;
 
+use AdsWarehouse\Warehouse\Warehouse;
 use GraphQL\Type\Schema;
 
 class Context
@@ -10,4 +11,6 @@ class Context
     public $schema;
     /** @var mixed */
     public $rootValue;
+    /** @var Warehouse */
+    public $warehouse;
 }
