@@ -24,12 +24,12 @@ class Ad
     public $ctr;
     /** @var string */
     public $source;
-    /** @var DateTime */
+    /** @var DateTime|string */
     public $date;
 
     public function __construct()
     {
-        if (isset($this->date) && is_string($this->date)) {
+        if (is_string($this->date)) {
             $this->date = DateTime::createFromFormat('Y-m-d', $this->date);
         }
     }

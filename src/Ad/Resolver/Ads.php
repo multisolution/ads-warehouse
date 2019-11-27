@@ -7,9 +7,9 @@ use AdsWarehouse\Resolver;
 
 class Ads implements Resolver
 {
-    public function __invoke($root, array $args, Context $context)
+    /** @psalm-return array<int, Ad> */
+    public function __invoke($root, array $args, Context $context): array
     {
         return $context->warehouse->items();
     }
 }
-

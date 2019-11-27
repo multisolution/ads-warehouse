@@ -15,14 +15,12 @@ class Pdo implements Warehouse
         $this->pdo = $pdo;
     }
 
-    /**
-     * @param Ad[] $ads
-     * @return bool
-     */
+    /** @psalm-param list<Ad> $ads */
     public function store(array $ads): void
     {
         $stmt = $this->pdo->prepare(
-            'insert into ad (id, name, cost, impressions, clicks, cpm, cpc, ctr, source, date) values (:id, :name, :cost, :impressions, :clicks, :cpm, :cpc, :ctr, :source, :date)'
+            'insert into ad (id, name, cost, impressions, clicks, cpm, cpc, ctr, source, date)
+            values (:id, :name, :cost, :impressions, :clicks, :cpm, :cpc, :ctr, :source, :date)'
         );
 
         foreach ($ads as $ad) {
@@ -42,12 +40,19 @@ class Pdo implements Warehouse
     }
 
     /**
+     * @psalm-return list<Ad>
      * @return Ad[]
      */
     public function items(): array
     {
-        return $this->pdo->query('select * from ad order by timestamp desc')
+        $results = $this->pdo->query('select * from ad order by timestamp desc')
             ->fetchAll(\PDO::FETCH_CLASS, Ad::class);
+
+        if ($results === false) {
+            return [];
+        }
+
+        return $results;
     }
 
     public function drop(string $source, DateTime $date): void

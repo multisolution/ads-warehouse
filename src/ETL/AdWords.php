@@ -5,9 +5,9 @@ namespace AdsWarehouse\ETL;
 use AdsWarehouse\Ad\Ad;
 use AdsWarehouse\Warehouse\Warehouse;
 use DateTime;
-use Exception;
 use Google_Service_AnalyticsReporting;
 use Google_Service_AnalyticsReporting_DateRange;
+use Google_Service_AnalyticsReporting_DateRangeValues;
 use Google_Service_AnalyticsReporting_Dimension as Dimension;
 use Google_Service_AnalyticsReporting_GetReportsRequest;
 use Google_Service_AnalyticsReporting_GetReportsResponse;
@@ -19,7 +19,7 @@ use Ramsey\Uuid\Uuid;
 
 class AdWords extends ETL
 {
-    const SOURCE = 'AdWords';
+    private const SOURCE = 'AdWords';
 
     /** @var Google_Service_AnalyticsReporting */
     private $analytics;
@@ -30,8 +30,7 @@ class AdWords extends ETL
         Warehouse $warehouse,
         Google_Service_AnalyticsReporting $analytics,
         string $viewId
-    )
-    {
+    ) {
         parent::__construct($warehouse);
         $this->analytics = $analytics;
         $this->viewId = $viewId;
@@ -60,8 +59,8 @@ class AdWords extends ETL
 
     /**
      * @param Google_Service_AnalyticsReporting_GetReportsResponse $data
+     * @psalm-return list<Ad>
      * @return Ad[]
-     * @throws Exception
      */
     protected function transform($data): array
     {
@@ -75,7 +74,9 @@ class AdWords extends ETL
         foreach ($data->getRows() as $row) {
             /** @var string $campaign */
             $campaign = $row->getDimensions()[0];
+            /** @var Google_Service_AnalyticsReporting_DateRangeValues $metrics */
             $metrics = $row->getMetrics()[0];
+            /** @var array $values */
             $values = $metrics->getValues();
 
             $ad = new Ad();
@@ -96,9 +97,7 @@ class AdWords extends ETL
         return $ads;
     }
 
-    /**
-     * @return string[]
-     */
+    /** @psalm-return list<string> */
     private function getExpressions(): array
     {
         return [
@@ -114,9 +113,7 @@ class AdWords extends ETL
         ];
     }
 
-    /**
-     * @return Metric[]
-     */
+    /** @psalm-return list<Metric> */
     private function getMetrics(): array
     {
         return array_map([$this, 'newMetricFromExpression'], $this->getExpressions());

@@ -13,7 +13,7 @@ use function AdsWarehouse\yesterday;
 
 class FacebookAds extends ETL
 {
-    const SOURCE = 'Facebook';
+    private const SOURCE = 'Facebook';
 
     /** @var Api */
     private $api;
@@ -50,7 +50,8 @@ class FacebookAds extends ETL
     }
 
     /**
-     * @param AdsInsights[] $data
+     * @psalm-param list<AdsInsights> $data
+     * @psalm-return list<Ad>
      * @return Ad[]
      */
     protected function transform($data): array
