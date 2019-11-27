@@ -15,6 +15,7 @@ use Google_Service_AnalyticsReporting_Metric as Metric;
 use Google_Service_AnalyticsReporting_Report;
 use Google_Service_AnalyticsReporting_ReportRequest;
 use Google_Service_AnalyticsReporting_ReportRow;
+use Google_Service_AnalyticsReporting_Resource_Reports;
 use Ramsey\Uuid\Uuid;
 
 class AdWords extends ETL
@@ -54,7 +55,10 @@ class AdWords extends ETL
         $body = new Google_Service_AnalyticsReporting_GetReportsRequest();
         $body->setReportRequests([$request]);
 
-        return $this->analytics->reports->batchGet($body);
+        /** @var Google_Service_AnalyticsReporting_Resource_Reports $reports */
+        $reports = $this->analytics->reports;
+
+        return $reports->batchGet($body);
     }
 
     /**
@@ -72,8 +76,10 @@ class AdWords extends ETL
 
         /** @var Google_Service_AnalyticsReporting_ReportRow $row */
         foreach ($data->getRows() as $row) {
+            /** @var string[] $dimensions */
+            $dimensions = $row->getDimensions();
             /** @var string $campaign */
-            $campaign = $row->getDimensions()[0];
+            $campaign = $dimensions[0];
             /** @var Google_Service_AnalyticsReporting_DateRangeValues $metrics */
             $metrics = $row->getMetrics()[0];
             /** @var array $values */
@@ -82,12 +88,12 @@ class AdWords extends ETL
             $ad = new Ad();
             $ad->id = Uuid::uuid4();
             $ad->name = $campaign;
-            $ad->impressions = $values[3];
-            $ad->clicks = $values[4];
-            $ad->cost = $values[5];
-            $ad->cpm = $values[6];
-            $ad->cpc = $values[7];
-            $ad->ctr = $values[8];
+            $ad->impressions = intval($values[3]);
+            $ad->clicks = intval($values[4]);
+            $ad->cost = floatval($values[5]);
+            $ad->cpm = floatval($values[6]);
+            $ad->cpc = floatval($values[7]);
+            $ad->ctr = floatval($values[8]);
             $ad->source = $this->getSource();
             $ad->date = (new DateTime())->modify('-1 day');
 

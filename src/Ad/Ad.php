@@ -3,10 +3,12 @@
 namespace AdsWarehouse\Ad;
 
 use DateTime;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 class Ad
 {
-    /** @var string */
+    /** @var UuidInterface|string */
     public $id;
     /** @var string */
     public $name;
@@ -29,6 +31,10 @@ class Ad
 
     public function __construct()
     {
+        if (is_string($this->id)) {
+            $this->id = Uuid::fromString($this->id);
+        }
+
         if (is_string($this->date)) {
             $this->date = DateTime::createFromFormat('Y-m-d', $this->date);
         }

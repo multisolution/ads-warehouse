@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e8ad8779fcffb4f4ba3a0aa55072c67",
+    "content-hash": "eae26846b115a559759c272b6fd2ca0a",
     "packages": [
         {
             "name": "facebook/php-business-sdk",
@@ -1006,17 +1006,50 @@
             "time": "2018-07-19T23:38:55+00:00"
         },
         {
-            "name": "symfony/polyfill-ctype",
-            "version": "v1.12.0",
+            "name": "swoole/ide-helper",
+            "version": "4.4.12",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "550ebaac289296ce228a706d0867afc34687e3f4"
+                "url": "https://github.com/swoole/ide-helper.git",
+                "reference": "915964abd1ff4fe78be3e341ce9008b6d6a7648a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/550ebaac289296ce228a706d0867afc34687e3f4",
-                "reference": "550ebaac289296ce228a706d0867afc34687e3f4",
+                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/915964abd1ff4fe78be3e341ce9008b6d6a7648a",
+                "reference": "915964abd1ff4fe78be3e341ce9008b6d6a7648a",
+                "shasum": ""
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "~3.4.0",
+                "symfony/filesystem": "~4.3.0",
+                "zendframework/zend-code": "~3.3.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team Swoole",
+                    "email": "team@swoole.com"
+                }
+            ],
+            "description": "IDE help files for Swoole.",
+            "time": "2019-11-04T17:53:06+00:00"
+        },
+        {
+            "name": "symfony/polyfill-ctype",
+            "version": "v1.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-ctype.git",
+                "reference": "f8f0b461be3385e56d6de3dbb5a0df24c0c275e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/f8f0b461be3385e56d6de3dbb5a0df24c0c275e3",
+                "reference": "f8f0b461be3385e56d6de3dbb5a0df24c0c275e3",
                 "shasum": ""
             },
             "require": {
@@ -1028,7 +1061,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.12-dev"
+                    "dev-master": "1.13-dev"
                 }
             },
             "autoload": {
@@ -1061,7 +1094,7 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2019-08-06T08:03:45+00:00"
+            "time": "2019-11-27T13:56:44+00:00"
         },
         {
             "name": "webonyx/graphql-php",
@@ -3159,39 +3192,6 @@
                 "standards"
             ],
             "time": "2019-10-28T04:36:32+00:00"
-        },
-        {
-            "name": "swoole/ide-helper",
-            "version": "4.4.12",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/swoole/ide-helper.git",
-                "reference": "915964abd1ff4fe78be3e341ce9008b6d6a7648a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/915964abd1ff4fe78be3e341ce9008b6d6a7648a",
-                "reference": "915964abd1ff4fe78be3e341ce9008b6d6a7648a",
-                "shasum": ""
-            },
-            "require-dev": {
-                "squizlabs/php_codesniffer": "~3.4.0",
-                "symfony/filesystem": "~4.3.0",
-                "zendframework/zend-code": "~3.3.0"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Team Swoole",
-                    "email": "team@swoole.com"
-                }
-            ],
-            "description": "IDE help files for Swoole.",
-            "time": "2019-11-04T17:53:06+00:00"
         },
         {
             "name": "symfony/config",

@@ -11,10 +11,10 @@
         "webonyx/graphql-php": "^0.13.8",
         "google/apiclient": "^2.4",
         "ramsey/uuid": "^3.8",
-        "facebook/php-business-sdk": "^5.0"
+        "facebook/php-business-sdk": "^5.0",
+        "swoole/ide-helper": "^4.4"
     },
     "require-dev": {
-        "swoole/ide-helper": "^4.4",
         "phpunit/phpunit": "^8.4",
         "vimeo/psalm": "^3.7",
         "squizlabs/php_codesniffer": "^3.5",

@@ -5,6 +5,7 @@ namespace AdsWarehouse\ETL;
 use AdsWarehouse\Ad\Ad;
 use AdsWarehouse\Warehouse\Warehouse;
 use FacebookAds\Api;
+use FacebookAds\Object\AbstractObject;
 use FacebookAds\Object\AdAccount;
 use FacebookAds\Object\AdsInsights;
 use FacebookAds\Object\Values\AdsInsightsDatePresetValues;
@@ -27,6 +28,10 @@ class FacebookAds extends ETL
         $this->adAccountId = $adAccountId;
     }
 
+    /**
+     * @psalm-return list<AbstractObject>
+     * @return AbstractObject[]
+     */
     protected function extract()
     {
         $fields = [
@@ -46,6 +51,8 @@ class FacebookAds extends ETL
 
         $ad_account = new AdAccount($this->adAccountId);
 
+        $insights = $ad_account->getInsights($fields, $params);
+
         return $ad_account->getInsights($fields, $params)->getArrayCopy();
     }
 
@@ -62,12 +69,12 @@ class FacebookAds extends ETL
             $ad = new Ad();
             $ad->id = Uuid::uuid4();
             $ad->name = $data['campaign_name'];
-            $ad->cost = $data['spend'];
-            $ad->impressions = $data['impressions'];
-            $ad->clicks = $data['clicks'];
-            $ad->cpm = $data['cpm'];
-            $ad->cpc = $data['cpc'];
-            $ad->ctr = $data['ctr'];
+            $ad->cost = floatval($data['spend']);
+            $ad->impressions = intval($data['impressions']);
+            $ad->clicks = intval($data['clicks']);
+            $ad->cpm = floatval($data['cpm']);
+            $ad->cpc = floatval($data['cpc']);
+            $ad->ctr = floatval($data['ctr']);
             $ad->source = $this->getSource();
             $ad->date = yesterday();
 

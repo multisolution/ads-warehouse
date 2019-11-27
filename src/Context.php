@@ -13,7 +13,6 @@ class Context
     public $rootValue;
     /** @var Warehouse */
     public $warehouse;
-
     /** @var bool */
     public $debug;
 }
