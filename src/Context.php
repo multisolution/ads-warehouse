@@ -16,4 +16,6 @@ class Context
     public $warehouse;
     /** @var ETL[] */
     public $etl;
+    /** @var bool */
+    public $debug;
 }

@@ -1,0 +1,15 @@
+{
+    "name": "Ads Warehouse GraphQL Schema",
+    "schemaPath": "./src/",
+    "extensions": {
+        "endpoints": {
+            "Default GraphQL Endpoint": {
+                "url": "http://localhost:8034/graphql",
+                "headers": {
+                    "user-agent": "JS GraphQL"
+                },
+                "introspect": false
+            }
+        }
+    }
+}

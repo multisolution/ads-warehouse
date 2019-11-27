@@ -19,5 +19,6 @@ $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::ERRMODE_EXCEPTION);
 $context = new Context();
 $context->schema = require_once "$basedir/src/schema.php";
 $context->warehouse = new Warehouse\Pdo($pdo);
+$context->debug = getenv('APP_DEBUG') === 'true';
 
 http(new Handler($context), 8000)->start();

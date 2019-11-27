@@ -3,5 +3,7 @@
 namespace AdsWarehouse;
 
 return [
-    'ads' => new Ad\Resolver\Ads()
+    'Query' => [
+        'ads' => new Ad\Resolver\Ads()
+    ],
 ];

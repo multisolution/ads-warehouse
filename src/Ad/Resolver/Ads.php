@@ -12,3 +12,4 @@ class Ads implements Resolver
         return $context->warehouse->items();
     }
 }
+
