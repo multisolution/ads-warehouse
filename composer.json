@@ -8,7 +8,8 @@
         "monolog/monolog": "^2.0",
         "firebase/php-jwt": "^5.0",
         "webonyx/graphql-php": "^0.13.8",
-        "google/apiclient": "^2.4"
+        "google/apiclient": "^2.4",
+        "ramsey/uuid": "^3.8"
     },
     "require-dev": {
         "swoole/ide-helper": "^4.4",
@@ -30,7 +31,6 @@
         }
     },
     "scripts": {
-        "up": "docker-compose up",
         "etl": "docker-compose exec -T server php bin/etl.php"
     }
 }
