@@ -2,6 +2,7 @@
 
 namespace AdsWarehouse;
 
+use AdsWarehouse\ETL\ETL;
 use AdsWarehouse\Warehouse\Warehouse;
 use GraphQL\Type\Schema;
 
@@ -13,4 +14,6 @@ class Context
     public $rootValue;
     /** @var Warehouse */
     public $warehouse;
+    /** @var ETL[] */
+    public $etl;
 }
