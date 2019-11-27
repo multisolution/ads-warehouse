@@ -1,29 +1,37 @@
 version: '3'
 services:
-  postgres:
-    container_name: ads_warehouse_postgres
-    image: postgres:alpine
-    env_file: ./.env
-    ports:
-      - "${DOCKER_POSTGRES_PORT}:5432"
+    postgres:
+        container_name: ads_warehouse_postgres
+        image: postgres:alpine
+        env_file: ./.env
+        ports:
+            - "${DOCKER_POSTGRES_PORT}:5432"
 
-  flyway:
-    container_name: ads_warehouse_flyway
-    image: flyway/flyway:latest-alpine
-    command: migrate
-    env_file: ./.env
-    volumes:
-      - ./src:/flyway/sql
-    depends_on:
-      - postgres
+    flyway:
+        container_name: ads_warehouse_flyway
+        image: flyway/flyway:latest-alpine
+        command: migrate
+        env_file: ./.env
+        volumes:
+            - ./src:/flyway/sql
+        depends_on:
+            - postgres
 
-  server:
-    container_name: ads_warehouse_server
-    image: leocavalcante/dwoole:dev
-    ports:
-      - "${DOCKER_HTTP_PORT}:8000"
-    volumes:
-      - ./:/app
-    env_file: ./.env
-    environment:
-      ENTRY_POINT_FILE: /app/bin/server.php
+    server:
+        container_name: ads_warehouse_server
+        image: leocavalcante/dwoole:dev
+        ports:
+            - "${DOCKER_HTTP_PORT}:8000"
+        volumes:
+            - ./:/app
+        env_file: ./.env
+        environment:
+            ENTRY_POINT_FILE: /app/bin/server.php
+
+    metabase:
+        container_name: ads_warehouse_metabase
+        image: metabase/metabase
+        ports:
+            - "${DOCKER_METABASE_PORT}:3000"
+        links:
+            - postgres
