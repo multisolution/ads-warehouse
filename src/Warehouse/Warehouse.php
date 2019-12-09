@@ -8,14 +8,12 @@ use DateTime;
 interface Warehouse
 {
     /**
-     * @return Ad[]
-     * @psalm-return list<Ad>
+     * @return array<int, Ad>
      */
     public function items(): array;
 
     /**
-     * @param Ad[] $ads
-     * @psalm-param list<Ad> $ads
+     * @param array<int, Ad> $ads
      */
     public function store(array $ads): void;
 

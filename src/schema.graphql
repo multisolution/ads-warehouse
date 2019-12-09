@@ -1,3 +1,18 @@
+type Ad {
+    id: ID!
+    name: String!
+    cost: Float!
+    impressions: Int!
+    clicks: Int!
+    cpm: Float!
+    cpc: Float!
+    ctr: Float!
+    source: String!
+    date: String!
+    timestamp: String!
+}
+
+
 type Query {
     ads: [Ad]!
 }

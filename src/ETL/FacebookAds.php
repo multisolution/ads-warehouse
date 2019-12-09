@@ -12,16 +12,17 @@ use FacebookAds\Object\Values\AdsInsightsDatePresetValues;
 use Ramsey\Uuid\Uuid;
 use function AdsWarehouse\yesterday;
 
+/**
+ * @template-extends ETL<array<int, AbstractObject>>
+ */
 class FacebookAds extends ETL
 {
     private const SOURCE = 'Facebook';
 
-    /** @var Api */
-    private $api;
-    /** @var string */
-    private $adAccountId;
+    private Api $api;
+    private int $adAccountId;
 
-    public function __construct(Warehouse $warehouse, Api $api, string $adAccountId)
+    public function __construct(Warehouse $warehouse, Api $api, int $adAccountId)
     {
         parent::__construct($warehouse);
         $this->api = $api;
@@ -29,10 +30,9 @@ class FacebookAds extends ETL
     }
 
     /**
-     * @psalm-return list<AbstractObject>
-     * @return AbstractObject[]
+     * @return array<int, AbstractObject>
      */
-    protected function extract()
+    protected function extract(): array
     {
         $fields = [
             'impressions',
@@ -50,16 +50,12 @@ class FacebookAds extends ETL
         ];
 
         $ad_account = new AdAccount($this->adAccountId);
-
-        $insights = $ad_account->getInsights($fields, $params);
-
         return $ad_account->getInsights($fields, $params)->getArrayCopy();
     }
 
     /**
-     * @psalm-param list<AdsInsights> $data
-     * @psalm-return list<Ad>
-     * @return Ad[]
+     * @param array<int, AdsInsights> $data
+     * @return array<int, Ad>
      */
     protected function transform($data): array
     {

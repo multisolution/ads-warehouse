@@ -18,20 +18,22 @@ use Google_Service_AnalyticsReporting_ReportRow;
 use Google_Service_AnalyticsReporting_Resource_Reports;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * @template-extends ETL<Google_Service_AnalyticsReporting_GetReportsResponse>
+ */
 class AdWords extends ETL
 {
     private const SOURCE = 'AdWords';
 
-    /** @var Google_Service_AnalyticsReporting */
-    private $analytics;
-    /** @var string */
-    private $viewId;
+    private Google_Service_AnalyticsReporting $analytics;
+    private int $viewId;
 
     public function __construct(
         Warehouse $warehouse,
         Google_Service_AnalyticsReporting $analytics,
-        string $viewId
-    ) {
+        int $viewId
+    )
+    {
         parent::__construct($warehouse);
         $this->analytics = $analytics;
         $this->viewId = $viewId;
@@ -55,7 +57,10 @@ class AdWords extends ETL
         $body = new Google_Service_AnalyticsReporting_GetReportsRequest();
         $body->setReportRequests([$request]);
 
-        /** @var Google_Service_AnalyticsReporting_Resource_Reports $reports */
+        /**
+         * @psalm-suppress MissingPropertyType
+         * @var Google_Service_AnalyticsReporting_Resource_Reports $reports
+         */
         $reports = $this->analytics->reports;
 
         return $reports->batchGet($body);
@@ -63,8 +68,7 @@ class AdWords extends ETL
 
     /**
      * @param Google_Service_AnalyticsReporting_GetReportsResponse $data
-     * @psalm-return list<Ad>
-     * @return Ad[]
+     * @return array<int, Ad>
      */
     protected function transform($data): array
     {
@@ -103,7 +107,7 @@ class AdWords extends ETL
         return $ads;
     }
 
-    /** @psalm-return list<string> */
+    /** @return array<int, string> */
     private function getExpressions(): array
     {
         return [
@@ -119,7 +123,7 @@ class AdWords extends ETL
         ];
     }
 
-    /** @psalm-return list<Metric> */
+    /** @return array<int, Metric> */
     private function getMetrics(): array
     {
         return array_map([$this, 'newMetricFromExpression'], $this->getExpressions());

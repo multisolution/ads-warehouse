@@ -10,22 +10,14 @@ class Ad
 {
     /** @var UuidInterface|string */
     public $id;
-    /** @var string */
-    public $name;
-    /** @var float */
-    public $cost;
-    /** @var int */
-    public $impressions;
-    /** @var int */
-    public $clicks;
-    /** @var float */
-    public $cpm;
-    /** @var float */
-    public $cpc;
-    /** @var float */
-    public $ctr;
-    /** @var string */
-    public $source;
+    public string $name;
+    public float $cost;
+    public int $impressions;
+    public int $clicks;
+    public float $cpm;
+    public float $cpc;
+    public float $ctr;
+    public string $source;
     /** @var DateTime|string */
     public $date;
 

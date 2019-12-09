@@ -13,7 +13,7 @@ services:
         command: migrate
         env_file: ./.env
         volumes:
-            - ./src:/flyway/sql
+            - ./db/migrations:/flyway/sql
         depends_on:
             - postgres
 

@@ -2,20 +2,20 @@
 
 namespace AdsWarehouse\Warehouse;
 
+use AdsWarehouse\Account\Account;
 use AdsWarehouse\Ad\Ad;
 use DateTime;
 
 class Pdo implements Warehouse
 {
-    /** @var \PDO */
-    private $pdo;
+    private \PDO $pdo;
 
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    /** @psalm-param list<Ad> $ads */
+    /** @param array<int, Ad> $ads */
     public function store(array $ads): void
     {
         $stmt = $this->pdo->prepare(
@@ -40,8 +40,7 @@ class Pdo implements Warehouse
     }
 
     /**
-     * @psalm-return list<Ad>
-     * @return Ad[]
+     * @return array<int, Ad>
      */
     public function items(): array
     {
@@ -58,5 +57,13 @@ class Pdo implements Warehouse
     public function drop(string $source, DateTime $date): void
     {
         $this->pdo->prepare('delete from ad where source = ? and date = ?')->execute([$source, $date->format('Y-m-d')]);
+    }
+
+    /**
+     * @return array<int, Account>
+     */
+    public function accounts(): array
+    {
+        return $this->pdo->query('select * from account')->fetchAll(\PDO::FETCH_CLASS, Account::class);
     }
 }

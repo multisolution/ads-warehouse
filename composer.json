@@ -39,6 +39,7 @@
         ]
     },
     "scripts": {
-        "etl": "docker-compose exec -T server php bin/etl.php"
+        "etl": "docker-compose exec -T server php bin/etl.php",
+        "analyze": "psalm"
     }
 }

@@ -6,10 +6,12 @@ use AdsWarehouse\Ad\Ad;
 use AdsWarehouse\Warehouse\Warehouse;
 use function AdsWarehouse\yesterday;
 
+/**
+ * @template T
+ */
 abstract class ETL
 {
-    /** @var Warehouse */
-    private $warehouse;
+    private Warehouse $warehouse;
 
     public function __construct(Warehouse $warehouse)
     {
@@ -17,14 +19,13 @@ abstract class ETL
     }
 
     /**
-     * @return mixed
+     * @return T
      */
     abstract protected function extract();
 
     /**
-     * @param mixed $data
-     * @return Ad[]
-     * @psalm-return list<Ad>
+     * @param T $data
+     * @return array<int, Ad>
      */
     abstract protected function transform($data): array;
 

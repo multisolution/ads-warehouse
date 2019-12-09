@@ -2,6 +2,7 @@
 
 namespace AdsWarehouse;
 
+use AdsWarehouse\Account\Account;
 use AdsWarehouse\ETL\AdWords;
 use AdsWarehouse\ETL\ETL;
 use AdsWarehouse\ETL\FacebookAds;
@@ -37,11 +38,11 @@ if (getenv('APP_DEBUG') === 'true') {
     $api->setLogger(new CurlLogger());
 }
 
-$elt = [
-    new AdWords($warehouse, $analytics, getenv('GA_VIEW_ID')),
-    new FacebookAds($warehouse, $api, getenv('FB_AD_ACCOUNT_ID')),
-];
+$accounts = $warehouse->accounts();
 
-array_walk($elt, function (ETL $etl): void {
-    $etl->load();
-});
+$etl = array_map(fn(Account $account) => [
+    new AdWords($warehouse, $analytics, $account->gaViewId),
+    new FacebookAds($warehouse, $api, $account->fbAdAccountId),
+], $accounts);
+
+array_walk_recursive($elt, fn(ETL $etl): void => $etl->load());

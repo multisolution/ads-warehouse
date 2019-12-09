@@ -9,9 +9,8 @@ use AdsWarehouse\Resolver;
 class Ads implements Resolver
 {
     /**
-     * @psalm-param mixed $root
-     * @psalm-return list<Ad>
-     * @return Ad[]
+     * @param mixed $root
+     * @return array<int, Ad>
      */
     public function __invoke($root, array $args, Context $context): array
     {
