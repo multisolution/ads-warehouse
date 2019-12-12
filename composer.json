@@ -35,7 +35,8 @@
             ]
         },
         "files": [
-            "src/helpers.php"
+            "src/helpers.php",
+            "lib/functions.php"
         ]
     },
     "scripts": {
