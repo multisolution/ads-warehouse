@@ -39,19 +39,19 @@ if (env_bool('APP_DEBUG')) {
 $accounts = $warehouse->accounts();
 
 /** @var array<int, ETL> $etl */
-$etl = array_map(function (Account $account) use ($warehouse, $analytics, $warehouse, $api): array {
+$etl = array_map(function (Account $account) use ($warehouse, $analytics, $api): array {
     /** @var array<int, ETL> $pipeline */
     $pipeline = [];
 
     if ($account->gaViewId !== null) {
-        $pipeline[] = new AdWords($warehouse, $analytics, $account->gaViewId);
+        $pipeline[] = new AdWords($warehouse, $account, $analytics);
     }
 
     if ($account->fbAdAccountId !== null) {
-        $pipeline[] = new FacebookAds($warehouse, $api, $account->fbAdAccountId);
+        $pipeline[] = new FacebookAds($warehouse, $account, $api);
     }
 
     return $pipeline;
 }, $accounts);
 
-array_walk_recursive($elt, fn(ETL $etl) => $etl->load());
+array_walk_recursive($etl, fn(ETL $etl) => $etl->load());

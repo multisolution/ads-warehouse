@@ -10,8 +10,8 @@ class Account
     /** @var UuidInterface|string */
     public $id;
     public string $name;
-    public ?int $gaViewId;
-    public ?int $fbAdAccountId;
+    public ?string $gaViewId;
+    public ?string $fbAdAccountId;
 
     public function __construct()
     {
@@ -20,11 +20,11 @@ class Account
         }
 
         if (isset($this->ga_view_id)) {
-            $this->gaViewId = intval($this->ga_view_id);
+            $this->gaViewId = strval($this->ga_view_id);
         }
 
         if (isset($this->fb_ad_account_id)) {
-            $this->fbAdAccountId = intval($this->fb_ad_account_id);
+            $this->fbAdAccountId = strval($this->fb_ad_account_id);
         }
     }
 }

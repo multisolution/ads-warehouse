@@ -2,6 +2,7 @@
 
 namespace AdsWarehouse\ETL;
 
+use AdsWarehouse\Account\Account;
 use AdsWarehouse\Ad\Ad;
 use AdsWarehouse\Warehouse\Warehouse;
 use FacebookAds\Api;
@@ -20,13 +21,11 @@ class FacebookAds extends ETL
     private const SOURCE = 'Facebook';
 
     private Api $api;
-    private int $adAccountId;
 
-    public function __construct(Warehouse $warehouse, Api $api, int $adAccountId)
+    public function __construct(Warehouse $warehouse, Account $account, Api $api)
     {
-        parent::__construct($warehouse);
+        parent::__construct($warehouse, $account);
         $this->api = $api;
-        $this->adAccountId = $adAccountId;
     }
 
     /**
@@ -49,7 +48,7 @@ class FacebookAds extends ETL
             'date_preset' => AdsInsightsDatePresetValues::YESTERDAY,
         ];
 
-        $ad_account = new AdAccount(strval($this->adAccountId));
+        $ad_account = new AdAccount(strval($this->account->fbAdAccountId));
 
         /** @var Cursor $insights */
         $insights = $ad_account->getInsights($fields, $params);
@@ -70,6 +69,7 @@ class FacebookAds extends ETL
 
             $ad = new Ad();
             $ad->id = Uuid::uuid4();
+            $ad->account = $this->account;
             $ad->name = $data['campaign_name'];
             $ad->cost = floatval($data['spend']);
             $ad->impressions = intval($data['impressions']);

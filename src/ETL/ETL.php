@@ -2,6 +2,7 @@
 
 namespace AdsWarehouse\ETL;
 
+use AdsWarehouse\Account\Account;
 use AdsWarehouse\Ad\Ad;
 use AdsWarehouse\Warehouse\Warehouse;
 use function AdsWarehouse\yesterday;
@@ -12,10 +13,12 @@ use function AdsWarehouse\yesterday;
 abstract class ETL
 {
     private Warehouse $warehouse;
+    protected Account $account;
 
-    public function __construct(Warehouse $warehouse)
+    public function __construct(Warehouse $warehouse, Account $account)
     {
         $this->warehouse = $warehouse;
+        $this->account = $account;
     }
 
     /**

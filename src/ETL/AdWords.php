@@ -2,6 +2,7 @@
 
 namespace AdsWarehouse\ETL;
 
+use AdsWarehouse\Account\Account;
 use AdsWarehouse\Ad\Ad;
 use AdsWarehouse\Warehouse\Warehouse;
 use DateTime;
@@ -26,17 +27,15 @@ class AdWords extends ETL
     private const SOURCE = 'AdWords';
 
     private Google_Service_AnalyticsReporting $analytics;
-    private int $viewId;
 
     public function __construct(
         Warehouse $warehouse,
-        Google_Service_AnalyticsReporting $analytics,
-        int $viewId
+        Account $account,
+        Google_Service_AnalyticsReporting $analytics
     )
     {
-        parent::__construct($warehouse);
+        parent::__construct($warehouse, $account);
         $this->analytics = $analytics;
-        $this->viewId = $viewId;
     }
 
     protected function extract(): Google_Service_AnalyticsReporting_GetReportsResponse
@@ -45,14 +44,14 @@ class AdWords extends ETL
         $date_range->setStartDate('yesterday');
         $date_range->setEndDate('yesterday');
 
-        $campaignId = new Dimension();
-        $campaignId->setName('ga:campaign');
+        $campaign_id = new Dimension();
+        $campaign_id->setName('ga:campaign');
 
         $request = new Google_Service_AnalyticsReporting_ReportRequest();
-        $request->setViewId($this->viewId);
+        $request->setViewId($this->account->gaViewId);
         $request->setDateRanges($date_range);
         $request->setMetrics($this->getMetrics());
-        $request->setDimensions([$campaignId]);
+        $request->setDimensions([$campaign_id]);
 
         $body = new Google_Service_AnalyticsReporting_GetReportsRequest();
         $body->setReportRequests([$request]);
@@ -91,6 +90,7 @@ class AdWords extends ETL
 
             $ad = new Ad();
             $ad->id = Uuid::uuid4();
+            $ad->account = $this->account;
             $ad->name = $campaign;
             $ad->impressions = intval($values[3]);
             $ad->clicks = intval($values[4]);

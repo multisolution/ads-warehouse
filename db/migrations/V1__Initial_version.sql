@@ -2,8 +2,8 @@ create table account
 (
     id               uuid      not null primary key,
     name             varchar   not null,
-    ga_view_id       int,
-    fb_ad_account_id int,
+    ga_view_id       varchar,
+    fb_ad_account_id varchar,
     timestamp        timestamp not null default current_timestamp
 );
 
