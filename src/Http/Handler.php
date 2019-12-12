@@ -9,6 +9,7 @@ use Siler\Monolog as Log;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Throwable;
+use UnexpectedValueException;
 use function Siler\Encoder\Json\decode;
 use function Siler\GraphQL\debug;
 use function Siler\GraphQL\execute;
@@ -26,10 +27,22 @@ class Handler
         debug($context->debug ? Debug::INCLUDE_DEBUG_MESSAGE : 0);
     }
 
-    public function __invoke(Request $request, Response $response)
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @throws Throwable
+     */
+    public function __invoke(Request $request, Response $response): void
     {
         try {
-            $input = decode(raw());
+            $raw = raw();
+
+            if ($raw === null) {
+                throw new UnexpectedValueException('Empty content');
+            }
+
+            /** @var array<string, mixed> $input */
+            $input = decode($raw);
             $result = execute($this->context->schema, $input, $this->context->rootValue, $this->context);
         } catch (Throwable $exception) {
             Log\error('Internal error', ['exception' => $exception]);

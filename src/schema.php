@@ -2,12 +2,12 @@
 
 namespace AdsWarehouse;
 
-use function Siler\File\concat_files;
-use function Siler\File\recur_iter_dir;
+use function Siler\File\{concat_files, recur_iter_dir};
 use function Siler\GraphQL\schema;
 
-$basedir = dirname(__DIR__, 1);
-$type_defs = concat_files(recur_iter_dir("$basedir/src", '/\.graphql$/'));
-$resolvers = require_once "$basedir/src/resolvers.php";
+$type_defs = concat_files(recur_iter_dir(__DIR__ . '/../src', '/\.graphql$/'));
+
+/** @var array<string, mixed> $resolvers */
+$resolvers = require_once __DIR__ . '/../src/resolvers.php';
 
 return schema($type_defs, $resolvers);

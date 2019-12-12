@@ -2,6 +2,7 @@
 
 namespace AdsWarehouse\Ad;
 
+use AdsWarehouse\Account\Account;
 use DateTime;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -10,6 +11,7 @@ class Ad
 {
     /** @var UuidInterface|string */
     public $id;
+    public Account $account;
     public string $name;
     public float $cost;
     public int $impressions;

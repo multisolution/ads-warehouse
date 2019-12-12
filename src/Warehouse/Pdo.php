@@ -19,12 +19,13 @@ class Pdo implements Warehouse
     public function store(array $ads): void
     {
         $stmt = $this->pdo->prepare(
-            'insert into ad (id, name, cost, impressions, clicks, cpm, cpc, ctr, source, date)
-            values (:id, :name, :cost, :impressions, :clicks, :cpm, :cpc, :ctr, :source, :date)'
+            'insert into ad (id, account_id, name, cost, impressions, clicks, cpm, cpc, ctr, source, date)
+            values (:id, :account_id, :name, :cost, :impressions, :clicks, :cpm, :cpc, :ctr, :source, :date)'
         );
 
         foreach ($ads as $ad) {
             $stmt->bindValue('id', $ad->id);
+            $stmt->bindValue('account_id', $ad->account->id);
             $stmt->bindValue('name', $ad->name);
             $stmt->bindValue('cost', $ad->cost);
             $stmt->bindValue('impressions', $ad->impressions, \PDO::PARAM_INT);
@@ -33,7 +34,7 @@ class Pdo implements Warehouse
             $stmt->bindValue('cpc', $ad->cpc);
             $stmt->bindValue('ctr', $ad->ctr);
             $stmt->bindValue('source', $ad->source);
-            $stmt->bindValue('date', $ad->date->format('Y-m-d'));
+            $stmt->bindValue('date', $ad->date instanceof DateTime ? $ad->date->format('Y-m-d') : $ad->date); // Type-safety!!!
 
             $stmt->execute();
         }
@@ -44,6 +45,7 @@ class Pdo implements Warehouse
      */
     public function items(): array
     {
+        /** @var array<int, Ad>|false $results */
         $results = $this->pdo->query('select * from ad order by timestamp desc')
             ->fetchAll(\PDO::FETCH_CLASS, Ad::class);
 
@@ -64,6 +66,14 @@ class Pdo implements Warehouse
      */
     public function accounts(): array
     {
-        return $this->pdo->query('select * from account')->fetchAll(\PDO::FETCH_CLASS, Account::class);
+        /** @var array<int, Account>|false $results */
+        $results = $this->pdo->query('select * from account')
+            ->fetchAll(\PDO::FETCH_CLASS, Account::class);
+
+        if ($results === false) {
+            return [];
+        }
+
+        return $results;
     }
 }

@@ -5,7 +5,7 @@ namespace AdsWarehouse\ETL;
 use AdsWarehouse\Ad\Ad;
 use AdsWarehouse\Warehouse\Warehouse;
 use FacebookAds\Api;
-use FacebookAds\Object\AbstractObject;
+use FacebookAds\Cursor;
 use FacebookAds\Object\AdAccount;
 use FacebookAds\Object\AdsInsights;
 use FacebookAds\Object\Values\AdsInsightsDatePresetValues;
@@ -13,7 +13,7 @@ use Ramsey\Uuid\Uuid;
 use function AdsWarehouse\yesterday;
 
 /**
- * @template-extends ETL<array<int, AbstractObject>>
+ * @template-extends ETL<array<int, AdsInsights>>
  */
 class FacebookAds extends ETL
 {
@@ -30,7 +30,7 @@ class FacebookAds extends ETL
     }
 
     /**
-     * @return array<int, AbstractObject>
+     * @return array<int, AdsInsights>
      */
     protected function extract(): array
     {
@@ -49,8 +49,13 @@ class FacebookAds extends ETL
             'date_preset' => AdsInsightsDatePresetValues::YESTERDAY,
         ];
 
-        $ad_account = new AdAccount($this->adAccountId);
-        return $ad_account->getInsights($fields, $params)->getArrayCopy();
+        $ad_account = new AdAccount(strval($this->adAccountId));
+
+        /** @var Cursor $insights */
+        $insights = $ad_account->getInsights($fields, $params);
+
+        /** @var array<int, AdsInsights> */
+        return $insights->getArrayCopy();
     }
 
     /**
@@ -60,6 +65,7 @@ class FacebookAds extends ETL
     protected function transform($data): array
     {
         return array_map(function (AdsInsights $insights): Ad {
+            /** @var array<string, string> $data */
             $data = $insights->getData();
 
             $ad = new Ad();

@@ -17,4 +17,12 @@
     <issueHandlers>
         <PropertyNotSetInConstructor errorLevel="suppress"/>
     </issueHandlers>
+
+    <stubs>
+        <file name="vendor/swoole/ide-helper/output/swoole/namespace/Server.php"/>
+        <file name="vendor/swoole/ide-helper/output/swoole/namespace/Server/Port.php"/>
+        <file name="vendor/swoole/ide-helper/output/swoole/namespace/Http/Server.php"/>
+        <file name="vendor/swoole/ide-helper/output/swoole/namespace/Http/Request.php"/>
+        <file name="vendor/swoole/ide-helper/output/swoole/namespace/Http/Response.php"/>
+    </stubs>
 </psalm>

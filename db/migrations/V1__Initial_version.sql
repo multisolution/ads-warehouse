@@ -1,6 +1,6 @@
 create table account
 (
-    id uuid not null primary key,
+    id               uuid      not null primary key,
     name             varchar   not null,
     ga_view_id       int,
     fb_ad_account_id int,
@@ -9,8 +9,8 @@ create table account
 
 create table ad
 (
-    id uuid not null primary key,
-    account_id uuid not null references account (id),
+    id          uuid      not null primary key,
+    account_id  uuid      not null references account (id),
     name        varchar   not null,
     cost        float     not null default 0,
     impressions int       not null default 0,
@@ -21,4 +21,14 @@ create table ad
     source      varchar   not null,
     date        date      not null,
     timestamp   timestamp not null default current_timestamp
+);
+
+create table metric
+(
+    id         uuid      not null primary key,
+    account_id uuid      not null references account (id),
+    key        varchar   not null,
+    value      int       not null default 0,
+    source     varchar   not null,
+    timestamp  timestamp not null default current_timestamp
 );
